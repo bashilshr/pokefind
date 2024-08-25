@@ -4,16 +4,16 @@ from starlette.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
 import httpx
 
-app = FastAPI()
-app.mount("/static", StaticFiles(directory="static"), name="static")
+fast = FastAPI()
+fast.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
-@app.get("/", response_class=HTMLResponse)
+@fast.get("/", response_class=HTMLResponse)
 async def get_home(request: Request):
     return templates.TemplateResponse("home.html", {"request": request})
 
 # Pokemon search route garxa 
-@app.post("/search", response_class=HTMLResponse)
+@fast.post("/search", response_class=HTMLResponse)
 async def search_pokemon(request: Request, pokemon_name: str = Form(...)):
     pokemon_name = pokemon_name.lower().replace(" ", "-")
     try:
